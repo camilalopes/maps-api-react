@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import List from './components/List'
 import './App.css';
 
 class App extends Component {
@@ -14,6 +15,10 @@ class App extends Component {
       {
         position: {lat: -1.28, lng: 36.8233},
         name: 'Padaria'
+      },
+      {
+        position: {lat: -1.2884, lng: 36.81},
+        name: 'Restô Cozy'
       }
     ],
     selectedPlace: {}          //Shows the infoWindow to the selected place upon a marker
@@ -37,31 +42,41 @@ class App extends Component {
 
   render() {
     return (
-      <div className="map">
-        <Map
-          google={this.props.google}
-          zoom={14}
-          initialCenter={{
-           lat: -1.2884,
-           lng: 36.8233
-          }}
-        >
-
-          {this.state.activeMarkers.map((marker) => {
-            return <Marker onClick={this.onMarkerClick}
-              position={marker.position} name={marker.name} />
-          })}
-
-          <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}
-            onClose={this.onClose}
+      <div className="container">
+        <div className="map">
+          <Map
+            google={this.props.google}
+            zoom={14}
+            initialCenter={{
+             lat: -1.2884,
+             lng: 36.8233
+            }}
           >
-            <div>
-              <h4>{this.state.selectedPlace.name}</h4>
-            </div>
-          </InfoWindow>
-        </Map>
+
+            {this.state.activeMarkers.map((marker) => {
+              return <Marker onClick={this.onMarkerClick}
+                position={marker.position} name={marker.name} />
+            })}
+
+            <InfoWindow
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
+              onClose={this.onClose}
+            >
+              <div>
+                <h4>{this.state.selectedPlace.name}</h4>
+              </div>
+            </InfoWindow>
+          </Map>
+        </div>
+        <div className="side-bar">
+          <h1> West End </h1>
+          <input type="text" placeholder="Search a location name"
+            //value={this.state.query}
+            //onChange={(event) => this.updateQuery(event.target.value)}
+          />
+          <List markers={this.state.activeMarkers} />
+        </div>
       </div>
     );
   }
