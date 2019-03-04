@@ -1,6 +1,6 @@
 import { FS_CLIENT_ID, FS_CLIENT_SECRET } from "./credentials";
 
-const URL = "https://api.foursquare.com/v2/venues/explore?";
+const URL = "https://api.foursquare.com/v2/venues/search?";
 const VER = "20130619";
 const LIM = 15;
 const CATEGORIE = 'Pubs'
@@ -11,13 +11,13 @@ export const getFSVenues = (mapCenter) => {
     &query=${CATEGORIE}&limit=${LIM}`;
 
   return (fetch(requestURL)
-    .then(response => {
-      if (!response.ok) {
-        throw response;
-      } else return response.json();
+    .then(data => {
+      if (!data.ok) {
+        throw data;
+      } else return data.json();
     })
     .then(data => {
-      return (data.response.groups[0].items);
+      return (data.response.venues);
     })
     //return goodPlaces;
   );

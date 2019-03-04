@@ -8,7 +8,7 @@ class App extends Component {
 
   state = {
     showingInfoWindow: false,
-    center: {lat: -1.2884, lng: 36.8233},
+    center: {lat: 51.5073, lng: 0.1276},
     markers: [
       {
         position: {lat: -1.2884, lng: 36.8233},
@@ -66,59 +66,43 @@ class App extends Component {
   };
 
  componentDidMount(){
-   this.setState({activeMarkers: this.state.markers})
-   this.getVenues(this.state.center);
+   //get all the venues int the FS API and set the markers
+   getFSVenues(this.state.center)
+     .then(venues => {
+       let markers = this.fitIntoMarkers(venues)
+       this.setState({ markers: markers })
+       this.setState({activeMarkers: markers})
+     });
  }
 
- getVenues(center) {
-    //let setVenueState = this.setState.bind(this)
-    getFSVenues(center)
-      .then(venues => {
-        this.setState({ venues: venues })
-      });
-  /*let setVenueState = this.setState.bind(this);
-  const venuesEndpoint = 'https://api.foursquare.com/v2/venues/explore?';
-  const params = {
-    client_id: 'XC45SLP2PETGKNWV1UFQXSUJ0PNKIUVDQTX0IXOO3CFBGPSM',
-    client_secret: '2TEPUANLKA4DIESECEK5T04GEDK31GID1IWJQ314O50VUOMU',
-    limit: 15,
-    query: 'Pubs',
-    v: '20130619',
-    ll: '51.5073,0.1276'
-  };
+ fitIntoMarkers(venues){
+   let markers = []
+   venues.forEach(venue => {
+      const position = {
+        lat: venue.location.lat,
+        lng: venue.location.lng
+      };
+      let marker = {
+        position,
+        name: venue.name,
+        id: venue.id,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      }
+      markers.push(marker)
+    })
 
-  fetch(venuesEndpoint + new URLSearchParams(params), {
-    method: 'GET'
-  }).then(response => response.json()).then(response => {
-    setVenueState({venues: response.response.groups[0].items});
-  });*/
+   return markers
  }
 
   render() {
-    var venueList = this.state.venues.map(item =>
-      <li>{item.venue.name}</li>
-      /*
-      labeledLatLngs: [{…}]
-      lat: 51.52357931312017
-      lng: -0.01077586426038614
 
-      formattedAddress
-
-      id
-      */
-      //console.log(Object.values(item.venue))
-    );
     return (
-
-      <div className="container">
         <div className="map">
+        <div className="container">
           <Map
             google={this.props.google}
             zoom={14}
-            initialCenter={{
-             lat: -1.2884,
-             lng: 36.8233
-            }}
+            initialCenter={this.state.center}
           >
 
             {this.state.activeMarkers.map((marker) => {
@@ -129,8 +113,8 @@ class App extends Component {
             })}
 
             <InfoWindow
-              //soma a lat para a janela aparecer acima do marcador
-              position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.0029),
+              //sum a value to lat to the window appears above the marker
+              position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.008),
                 lng: parseFloat(this.state.activeMarker.position.lng)}}
               visible={this.state.showingInfoWindow}
               onClose={this.onClose}
@@ -153,9 +137,6 @@ class App extends Component {
               this.onMarkerClick(marker) }}
           />
 
-          <ul>
-            {venueList}
-          </ul>
         </div>
       </div>
     );
