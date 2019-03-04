@@ -6,8 +6,8 @@ import './App.css';
 class App extends Component {
 
   state = {
-    showingInfoWindow: false,  //Hides or shows the infoWindow
-    activeMarkers: [
+    showingInfoWindow: false,
+    markers: [
       {
         position: {lat: -1.2884, lng: 36.8233},
         name: 'Restaurante'
@@ -21,10 +21,12 @@ class App extends Component {
         name: 'Restô Cozy'
       }
     ],
+    activeMarkers: [],
     activeMarker: {
       position: {lat: {}, lng: {}},
       name: ''
-    }
+    },
+    query: ''
   };
 
   onMarkerClick = (marker) =>
@@ -41,8 +43,25 @@ class App extends Component {
     }
   };
 
+  updateQuery = (query) => {
+    this.setState({ query })
+    this.searchMarker(query)
+  };
+
+  searchMarker = (query) => {
+    this.setState({
+      activeMarkers: this.state.markers.filter(marker =>
+      marker.name.toLowerCase().indexOf(query.toLowerCase()) > -1)
+    });
+  }
+
+ componentDidMount(){
+   this.setState({activeMarkers: this.state.markers})
+ }
+
   render() {
     return (
+
       <div className="container">
         <div className="map">
           <Map
@@ -76,8 +95,8 @@ class App extends Component {
         <div className="side-bar">
           <h1> West End </h1>
           <input type="text" placeholder="Search a location name"
-            //value={this.state.query}
-            //onChange={(event) => this.updateQuery(event.target.value)}
+            value={this.state.query}
+            onChange={(event) => this.updateQuery(event.target.value)}
           />
 
           <List markers={this.state.activeMarkers}
