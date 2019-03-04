@@ -6,7 +6,7 @@ import './App.css';
 class App extends Component {
 
   state = {
-    showingInfoWindow: false,  //Hides or the shows the infoWindow
+    showingInfoWindow: false,  //Hides or shows the infoWindow
     activeMarkers: [
       {
         position: {lat: -1.2884, lng: 36.8233},
@@ -21,21 +21,22 @@ class App extends Component {
         name: 'Restô Cozy'
       }
     ],
-    selectedPlace: {}          //Shows the infoWindow to the selected place upon a marker
+    activeMarker: {
+      position: {lat: {}, lng: {}},
+      name: ''
+    }
   };
 
-  onMarkerClick = (props, marker, e) =>
+  onMarkerClick = (marker) =>
     this.setState({
-      selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
-  });
+    });
 
   onClose = props => {
     if (this.state.showingInfoWindow) {
       this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
+        showingInfoWindow: false
       });
     }
   };
@@ -55,16 +56,19 @@ class App extends Component {
 
             {this.state.activeMarkers.map((marker) => {
               return <Marker onClick={this.onMarkerClick}
-                position={marker.position} name={marker.name} />
+                position={marker.position}
+                name={marker.name} />
             })}
 
             <InfoWindow
-              marker={this.state.activeMarker}
+              //soma a lat para a janela aparecer acima do marcador
+              position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.0035),
+                lng: parseFloat(this.state.activeMarker.position.lng)}}
               visible={this.state.showingInfoWindow}
               onClose={this.onClose}
             >
               <div>
-                <h4>{this.state.selectedPlace.name}</h4>
+                <h4>{this.state.activeMarker.name}</h4>
               </div>
             </InfoWindow>
           </Map>
@@ -75,7 +79,11 @@ class App extends Component {
             //value={this.state.query}
             //onChange={(event) => this.updateQuery(event.target.value)}
           />
-          <List markers={this.state.activeMarkers} />
+
+          <List markers={this.state.activeMarkers}
+            onClick={(marker) => {
+              this.onMarkerClick(marker) }}
+          />
         </div>
       </div>
     );
