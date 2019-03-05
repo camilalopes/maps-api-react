@@ -3,7 +3,7 @@ import { FS_CLIENT_ID, FS_CLIENT_SECRET } from "./credentials";
 const URL = "https://api.foursquare.com/v2/venues/search?";
 const VER = "20130619";
 const LIM = 15;
-const CATEGORIE = 'Pubs'
+const CATEGORIE = 'Food'
 
 export const getFSVenues = (mapCenter) => {
   const requestURL = `${URL}ll=${ mapCenter.lat }, ${ mapCenter.lng }

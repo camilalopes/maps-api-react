@@ -7,45 +7,30 @@ import './App.css';
 class App extends Component {
 
   state = {
-    showingInfoWindow: false,
-    center: {lat: 51.5073, lng: 0.1276},
-    markers: [
-      {
-        position: {lat: -1.2884, lng: 36.8233},
-        name: 'Restaurante',
-        icon: {url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
-      },
-      {
-        position: {lat: -1.28, lng: 36.8233},
-        name: 'Padaria',
-        icon: {url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
-      },
-      {
-        position: {lat: -1.2884, lng: 36.81},
-        name: 'Restô Cozy',
-        icon: {url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
-      }
-    ],
-    activeMarkers: [],
-    activeMarker: {
+    showingInfoWindow: false, //hides or show an Info Window
+    center: {lat: 49.285, lng: -123.134}, //map center position
+    markers: [], //all markers
+    activeMarkers: [], //just the active markers (filtered)
+    activeMarker: { //marker clicked
+      id: '',
       position: {lat: {}, lng: {}},
       name: '',
-      icon: {url: ''}
+      icon: ''
     },
-    query: '',
-    venues: []
+    query: ''
   };
 
-  onMarkerClick = (marker) =>{
-    //marker.icon.url = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-    //console.log(marker.icon.url)
+  onMarkerClick = (marker) => {
+    let selectedMarker = this.state.markers.find( m => m.id == marker.id)
+    selectedMarker.icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+    setTimeout(() => selectedMarker.icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', 100)
     this.setState({
       activeMarker: marker,
       showingInfoWindow: true
     });
   };
 
-  onClose = props => {
+  onClose = () => {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false
@@ -86,7 +71,8 @@ class App extends Component {
         position,
         name: venue.name,
         id: venue.id,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+        animation: null
       }
       markers.push(marker)
     })
@@ -107,6 +93,8 @@ class App extends Component {
 
             {this.state.activeMarkers.map((marker) => {
               return <Marker onClick={this.onMarkerClick}
+                id={marker.id}
+                animation={marker.animation}
                 icon={marker.icon}
                 position={marker.position}
                 name={marker.name} />
@@ -114,7 +102,7 @@ class App extends Component {
 
             <InfoWindow
               //sum a value to lat to the window appears above the marker
-              position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.008),
+              position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.002),
                 lng: parseFloat(this.state.activeMarker.position.lng)}}
               visible={this.state.showingInfoWindow}
               onClose={this.onClose}
