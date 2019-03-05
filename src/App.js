@@ -131,6 +131,8 @@ class App extends Component {
           <input type="text" placeholder="Search a location name"
             value={this.state.query}
             onChange={(event) => this.updateQuery(event.target.value)}
+            tabIndex="0"
+            role="search"
           />
 
           <List markers={this.state.activeMarkers}
