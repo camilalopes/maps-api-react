@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import List from './components/List'
 import { getFSVenues } from "./utils/foursquareAPI";
+import { GOOGLE_MAP_KEY } from "./utils/credentials";
 import './App.css';
 
 class App extends Component {
@@ -21,7 +22,7 @@ class App extends Component {
   };
 
   onMarkerClick = (marker) => {
-    let selectedMarker = this.state.markers.find( m => m.id == marker.id)
+    let selectedMarker = this.state.markers.find( m => m.id === marker.id)
     selectedMarker.icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
     setTimeout(() => selectedMarker.icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', 100)
     this.setState({
@@ -63,6 +64,7 @@ class App extends Component {
  fitIntoMarkers(venues){
    let markers = []
    venues.forEach(venue => {
+     console.log(Object.values(venue))
       const position = {
         lat: venue.location.lat,
         lng: venue.location.lng
@@ -91,9 +93,10 @@ class App extends Component {
             initialCenter={this.state.center}
           >
 
-            {this.state.activeMarkers.map((marker) => {
+            {this.state.activeMarkers.map((marker, index) => {
               return <Marker onClick={this.onMarkerClick}
                 id={marker.id}
+                key={index}
                 animation={marker.animation}
                 icon={marker.icon}
                 position={marker.position}
@@ -109,6 +112,7 @@ class App extends Component {
             >
               <div>
                 <h4>{this.state.activeMarker.name}</h4>
+                <p>  </p>
               </div>
             </InfoWindow>
           </Map>
@@ -132,5 +136,5 @@ class App extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyASTD9r6pWJjIKgNUaQ46sWcMnkF2Nh-T4'
+  apiKey: GOOGLE_MAP_KEY
 })(App);
