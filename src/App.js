@@ -3,7 +3,6 @@ import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import List from './components/List'
 import { getFSVenues, getVenueInfo } from "./utils/foursquareAPI";
 import { GOOGLE_MAP_KEY } from "./utils/credentials";
-import './App.css';
 
 class App extends Component {
 
@@ -128,6 +127,7 @@ class App extends Component {
         </div>
         <div className="side-bar">
           <h1> West End </h1>
+          <h2> Find a good place to eat </h2>
           <input type="text" placeholder="Search a location name"
             value={this.state.query}
             onChange={(event) => this.updateQuery(event.target.value)}
