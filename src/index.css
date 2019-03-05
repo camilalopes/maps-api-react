@@ -28,9 +28,9 @@ h1{
 }
 
 h2{
-  color: #fff;
+  color: #e6f2ff;
   font-weight: 100;
-  font-size: 1.3em;
+  font-size: 1.2em;
   margin-top: 4px;
 }
 
@@ -58,7 +58,7 @@ h1, h2{
   list-style-type: none;
   padding: 0;
   overflow-y: scroll;
-  height: 400px;
+  height: 360px;
 }
 
 .venue-item{
@@ -71,6 +71,21 @@ h1, h2{
 .venue-item:hover {
   cursor: pointer;
   background-color: #66b3ff;
+}
+
+input[type="text"]{
+
+  border-radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
+  font-size: 1em;
+  margin: 10px 0;
+  padding: 10px;
+  width: 230px;
 }
 
 /* scrollbar*/
