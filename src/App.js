@@ -126,8 +126,8 @@ class App extends Component {
           </Map>
         </div>
         <div className="side-bar">
-          <h1> West End </h1>
-          <h2> Find a good place to eat </h2>
+          <h1> Vancouver Downtown </h1>
+          <h2> find a good place to eat </h2>
           <input type="text" placeholder="Search a location name"
             value={this.state.query}
             onChange={(event) => this.updateQuery(event.target.value)}
