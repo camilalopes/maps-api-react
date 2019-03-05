@@ -1,5 +1,6 @@
 html {
   box-sizing: border-box;
+  background: #000d1a;
 }
 
 body {
@@ -25,18 +26,19 @@ code {
 }
 
 .side-bar{
-  width: 250px;
+  width: 260px;
   height: 100%;
   position: absolute;
   background: #000d1a;
   padding: 0 20px;
   z-index: 10;
-  overflow-y: scroll;
 }
 
 .venue-list{
   list-style-type: none;
   padding: 0;
+  overflow-y: scroll;
+  height: 400px;
 }
 
 .venue-item{
@@ -49,4 +51,28 @@ code {
 .venue-item:hover {
   cursor: pointer;
   background-color: #66b3ff;
+}
+
+/* scrollbar*/
+::-webkit-scrollbar {
+  width: 9px;
+  height: 10px;
+  -webkit-border-radius: 16px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #666;
+  -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: #66b3ff;
+  -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  width: 5px;
+  background-color: #66b3ff;
+  -webkit-border-radius: 3px;
 }
