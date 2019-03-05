@@ -7,8 +7,9 @@ class List extends Component {
       <ul>
         {this.props.markers.map((marker, index) => (
           <li key={index}>
-            {marker.name}
-            <button type="button" onClick={() => this.props.onClick(marker)}>click </button>
+            <div role="button" onClick={() => this.props.onClick(marker)}>
+              {marker.name}
+            </div>
           </li>))}
       </ul>
     );

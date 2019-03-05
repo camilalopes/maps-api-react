@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import List from './components/List'
-import { getFSVenues } from "./utils/foursquareAPI";
+import { getFSVenues, getVenueInfo } from "./utils/foursquareAPI";
 import { GOOGLE_MAP_KEY } from "./utils/credentials";
 import './App.css';
 
@@ -64,7 +64,17 @@ class App extends Component {
  fitIntoMarkers(venues){
    let markers = []
    venues.forEach(venue => {
-     console.log(Object.values(venue))
+      getVenueInfo(venue.id)
+        .then(info => {
+          console.log('Telefone ' + info.contact.formattedPhone)
+          console.log('Local ' + info.location.adress)
+          console.log('Preço ' + info.price.message)
+          console.log('Avaliação ' + info.rating)
+          console.log('Descrição: ' + info.description)
+          console.log('Foto ' + info.bestPhoto.prefix + info.bestPhoto.suffix);
+        });
+
+      //console.log(Object.values(venue))
       const position = {
         lat: venue.location.lat,
         lng: venue.location.lng
@@ -78,7 +88,6 @@ class App extends Component {
       }
       markers.push(marker)
     })
-
    return markers
  }
 

@@ -24,8 +24,8 @@ export const getFSVenues = (mapCenter) => {
 
 export const getVenueInfo = (venueId) => {
   const VENUE_ID = venueId;
-  const requestURL = `${URL}${VENUE_ID}?client_id=${FS_CLIENT_ID}&
-    client_secret=${FS_CLIENT_SECRET}&v=${VER}`
+  const requestURL = `${URL}${VENUE_ID}?client_id=${FS_CLIENT_ID}
+    &client_secret=${FS_CLIENT_SECRET}&v=${VER}`
 
   return (fetch(requestURL)
     .then(data => {
