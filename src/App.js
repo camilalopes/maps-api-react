@@ -113,6 +113,7 @@ class App extends Component {
             {this.state.activeMarkers.map((marker, index) => {
               return <Marker onClick={this.onMarkerClick}
                 id={marker.id}
+                address={marker.address}
                 key={index}
                 icon={marker.icon}
                 position={marker.position}
