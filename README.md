@@ -2,7 +2,11 @@
 
 An interactive map of Downtown Vancouver build with [Google Maps API](https://developers.google.com/maps/documentation/javascript/tutorial), [Foursquare API](https://developer.foursquare.com/places-api) and [React](https://reactjs.org/).
 
-## To run
+## Live App
+
+You can acess the application [here](https://camilalopes.github.io/maps-api-react/)
+
+## To run locally
 
 1. Download or clone this repository
 ```
@@ -13,6 +17,10 @@ git clone https://github.com/camilalopes/maps-api-react.git
 3. Start the application `npm start`
 
 4.  With your server running, visit the site: `http://localhost:3000`
+
+## Important
+
+This application uses API's from Google maps and Foursquare, and developer free plans are only limited.
 
 ## Fonts
 Some useful links that I consulted for this project
