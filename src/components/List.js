@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 class List extends Component {
   render(){
     return (
-      <ul>
+      <ul className="venue-list">
         {this.props.markers.map((marker, index) => (
           <li key={index}>
-            <div role="button" onClick={() => this.props.onClick(marker)} tabIndex="0">
+            <div role="button" tabIndex="0" className="venue-item"
+              onClick={() => this.props.onClick(marker)}>
               {marker.name}
             </div>
           </li>))}
