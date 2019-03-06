@@ -6,7 +6,7 @@ An interactive map of Downtown Vancouver build with [Google Maps API](https://de
 
 1. Download or clone this repository
 ```
-git clone https://github.com/camilalopes/my-reads.git
+git clone https://github.com/camilalopes/maps-api-react.git
 ```
 2. Inside the project directory run `npm install`
 
