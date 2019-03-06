@@ -14,6 +14,9 @@ class App extends Component {
     activeMarkers: [], //just the active markers (filtered)
     activeMarker: { //marker clicked
       id: '',
+      photo: '',
+      rate: '',
+      tel: '',
       position: {lat: {}, lng: {}},
       name: '',
       icon: ''
@@ -64,27 +67,35 @@ class App extends Component {
  fitIntoMarkers(venues){
    let markers = []
    venues.forEach(venue => {
+      let rate
+      let photo
+      let tel
       getVenueInfo(venue.id)
         .then(info => {
           console.log('Telefone ' + info.contact.formattedPhone)
-          console.log('Local ' + info.location.adress)
-          console.log('Preço ' + info.price.message)
-          console.log('Avaliação ' + info.rating)
-          console.log('Descrição: ' + info.description)
-          console.log('Foto ' + info.bestPhoto.prefix + info.bestPhoto.suffix);
+          //console.log('Local ' + info.location.adress)
+          //console.log('Preço ' + info.price.message)
+          //console.log('Avaliação ' + info.rating)
+          //console.log('Descrição: ' + info.description)
+          //console.log('Foto ' + `${info.bestPhoto.prefix}width100${info.bestPhoto.suffix}`);
+          rate = info.rating ? info.rating :  ''
+          photo = info.bestPhoto? `${info.bestPhoto.prefix}width100${info.bestPhoto.suffix}` : ''
+          tel = info.contact.formattedPhone ? info.contact.formattedPhone : 'no tel'
         });
 
       //console.log(Object.values(venue))
-      const position = {
+      let position = {
         lat: venue.location.lat,
         lng: venue.location.lng
       };
       let marker = {
+        photo,
+        rate,
+        tel,
         position,
         name: venue.name,
         id: venue.id,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-        animation: null
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       }
       markers.push(marker)
     })
@@ -106,7 +117,6 @@ class App extends Component {
               return <Marker onClick={this.onMarkerClick}
                 id={marker.id}
                 key={index}
-                animation={marker.animation}
                 icon={marker.icon}
                 position={marker.position}
                 name={marker.name} />
@@ -120,8 +130,10 @@ class App extends Component {
               onClose={this.onClose}
             >
               <div>
+                <img src={this.state.activeMarker.photo} alt={this.state.activeMarker.name}/>
                 <h4>{this.state.activeMarker.name}</h4>
-                <p>  </p>
+                <p> {this.state.activeMarker.tel} </p>
+                <p> {this.state.activeMarker.rate} </p>
               </div>
             </InfoWindow>
           </Map>
