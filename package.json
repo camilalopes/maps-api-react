@@ -2,6 +2,7 @@
   "name": "maps-api-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://camilalopes.github.io/maps-api-react/",
   "dependencies": {
     "google-maps-react": "^2.0.2",
     "react": "^16.8.3",
