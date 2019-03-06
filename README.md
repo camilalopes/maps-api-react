@@ -16,9 +16,13 @@ git clone https://github.com/camilalopes/my-reads.git
 
 ## Fonts
 Some useful links that I consulted for this project
+
 [google-maps-react](https://github.com/fullstackreact/google-maps-react)
+
 [react state and lifecycle](https://reactjs.org/docs/state-and-lifecycle.html)
+
 [Foursquare API documentation](https://developer.foursquare.com/places-api)
+
 [Utilizando Foursquare API](http://stevebrown.co/journal/creating-a-local-venue-app-using-reactredux-with-the-foursquare-api-part-i)
 
 ## Note
