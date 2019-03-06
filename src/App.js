@@ -14,14 +14,12 @@ class App extends Component {
     activeMarkers: [], //just the active markers (filtered)
     activeMarker: { //marker clicked
       id: '',
-      photo: '',
-      rate: '',
-      tel: '',
+      address: '',
       position: {lat: {}, lng: {}},
       name: '',
       icon: ''
     },
-    query: ''
+    query: '',
   };
 
   onMarkerClick = (marker) => {
@@ -61,42 +59,41 @@ class App extends Component {
        let markers = this.fitIntoMarkers(venues)
        this.setState({ markers: markers })
        this.setState({activeMarkers: markers})
+     }).catch(err => {
+       console.log(err);
      });
+
  }
 
  fitIntoMarkers(venues){
    let markers = []
-   venues.forEach(venue => {
-      let rate
-      let photo
-      let tel
-      getVenueInfo(venue.id)
-        .then(info => {
-          console.log('Telefone ' + info.contact.formattedPhone)
-          //console.log('Local ' + info.location.adress)
-          //console.log('Preço ' + info.price.message)
-          //console.log('Avaliação ' + info.rating)
-          //console.log('Descrição: ' + info.description)
-          //console.log('Foto ' + `${info.bestPhoto.prefix}width100${info.bestPhoto.suffix}`);
-          rate = info.rating ? info.rating :  ''
-          photo = info.bestPhoto? `${info.bestPhoto.prefix}width100${info.bestPhoto.suffix}` : ''
-          tel = info.contact.formattedPhone ? info.contact.formattedPhone : 'no tel'
-        });
+   var marker
 
-      //console.log(Object.values(venue))
-      let position = {
-        lat: venue.location.lat,
-        lng: venue.location.lng
-      };
-      let marker = {
-        photo,
-        rate,
-        tel,
-        position,
-        name: venue.name,
-        id: venue.id,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-      }
+   venues.forEach(venue => {
+     let position = {
+       lat: venue.location.lat,
+       lng: venue.location.lng
+     };
+
+     marker = {
+       //photo: '',
+       //rate: ,
+       //tel: '',
+       address: venue.location.address,
+       position,
+       name: venue.name,
+       id: venue.id,
+       icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+     }
+
+    /* doesnt work well
+    getVenueInfo(venue.id)
+        .then(info => {
+          //rate = info.rating ? info.rating :  ''
+          //photo = info.bestPhoto? `${info.bestPhoto.prefix}width100${info.bestPhoto.suffix}` : ''
+          //tel = info.contact.formattedPhone ? info.contact.formattedPhone : ''
+        });*/
+
       markers.push(marker)
     })
    return markers
@@ -130,10 +127,8 @@ class App extends Component {
               onClose={this.onClose}
             >
               <div>
-                <img src={this.state.activeMarker.photo} alt={this.state.activeMarker.name}/>
                 <h4>{this.state.activeMarker.name}</h4>
-                <p> {this.state.activeMarker.tel} </p>
-                <p> {this.state.activeMarker.rate} </p>
+                <p> {this.state.activeMarker.address} </p>
               </div>
             </InfoWindow>
           </Map>
