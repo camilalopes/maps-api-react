@@ -45,6 +45,19 @@ h1, h2{
   z-index: 0;
 }
 
+.info-content{
+  min-width: 170px;
+  min-height: 90px;
+}
+
+#logo-fs{
+  padding: 8px;
+  background-image: url('./icons/foursquare.svg');
+  background-color: transparent;
+  background-size: 100% 100%;
+  margin: 0 8px;
+}
+
 #menu-open{
   position: absolute;
   right: 10px;

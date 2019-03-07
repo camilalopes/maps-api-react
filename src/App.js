@@ -128,9 +128,12 @@ class App extends Component {
                 visible={this.state.showingInfoWindow}
                 onClose={this.onClose}
               >
-                <div>
+                <div className="info-content">
                   <h4>{this.state.activeMarker.name}</h4>
                   <p> {this.state.activeMarker.address} </p>
+                  <a href="https://de.foursquare.com/" aria-label='Powered by foursquare'>
+                    Powered by Foursquare <span id="logo-fs"></span>
+                  </a>
                 </div>
               </InfoWindow>
             </Map> ) : (<p>  Something went wrong, please check your conection </p>)
