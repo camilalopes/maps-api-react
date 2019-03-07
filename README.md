@@ -18,6 +18,14 @@ git clone https://github.com/camilalopes/maps-api-react.git
 
 4.  With your server running, visit the site: `http://localhost:3000`
 
+## Offline mode
+
+The `creat-react-app` creates a service worker to cache, but it only works in production mode, so you need to run
+
+```
+npm run build`
+```
+
 ## Important
 
 This application uses API's from Google maps and Foursquare, and developer free plans are only limited.
