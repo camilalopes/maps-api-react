@@ -104,35 +104,37 @@ class App extends Component {
     return (
       <div className="container">
         <div className="map">
-          <Map
-            google={this.props.google}
-            zoom={14}
-            initialCenter={this.state.center}
-          >
-
-            {this.state.activeMarkers.map((marker, index) => {
-              return <Marker onClick={this.onMarkerClick}
-                id={marker.id}
-                address={marker.address}
-                key={index}
-                icon={marker.icon}
-                position={marker.position}
-                name={marker.name} />
-            })}
-
-            <InfoWindow
-              //sum a value to lat to the window appears above the marker
-              position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.002),
-                lng: parseFloat(this.state.activeMarker.position.lng)}}
-              visible={this.state.showingInfoWindow}
-              onClose={this.onClose}
+          {this.props.google ? (
+            <Map
+              google={this.props.google}
+              zoom={14}
+              initialCenter={this.state.center}
             >
-              <div>
-                <h4>{this.state.activeMarker.name}</h4>
-                <p> {this.state.activeMarker.address} </p>
-              </div>
-            </InfoWindow>
-          </Map>
+
+              {this.state.activeMarkers.map((marker, index) => {
+                return <Marker onClick={this.onMarkerClick}
+                  id={marker.id}
+                  address={marker.address}
+                  key={index}
+                  icon={marker.icon}
+                  position={marker.position}
+                  name={marker.name} />
+              })}
+
+              <InfoWindow
+                //sum a value to lat to the window appears above the marker
+                position={{lat: parseFloat(this.state.activeMarker.position.lat)+parseFloat(0.002),
+                  lng: parseFloat(this.state.activeMarker.position.lng)}}
+                visible={this.state.showingInfoWindow}
+                onClose={this.onClose}
+              >
+                <div>
+                  <h4>{this.state.activeMarker.name}</h4>
+                  <p> {this.state.activeMarker.address} </p>
+                </div>
+              </InfoWindow>
+            </Map> ) : (<p>  Something went wrong, please check your conection </p>)
+          }
         </div>
 
         <ResponsiveMenu
