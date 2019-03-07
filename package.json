@@ -7,6 +7,7 @@
     "gh-pages": "^2.0.1",
     "google-maps-react": "^2.0.2",
     "react": "^16.8.3",
+    "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.8.3",
     "react-responsive-navbar": "^1.0.11",
     "react-scripts": "2.1.5"

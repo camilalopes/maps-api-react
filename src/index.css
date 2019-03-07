@@ -45,6 +45,13 @@ h1, h2{
   z-index: 0;
 }
 
+.error-msg{
+  font-size: 2em;
+  z-index: 1000;
+  position: absolute;
+  color: red;
+}
+
 .info-content{
   min-width: 170px;
   min-height: 90px;

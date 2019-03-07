@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { Map, InfoWindow, Marker } from 'google-maps-react';
 import List from './components/List'
-import { getFSVenues, getVenueInfo } from "./utils/foursquareAPI";
+import { getFSVenues } from "./utils/foursquareAPI";
 import { GOOGLE_MAP_KEY } from "./utils/credentials";
 import ResponsiveMenu from 'react-responsive-navbar';
+import scriptLoader from "react-async-script-loader";
 
 class App extends Component {
 
@@ -19,7 +20,7 @@ class App extends Component {
       name: '',
       icon: ''
     },
-    query: '',
+    query: ''
   };
 
   onMarkerClick = (marker) => {
@@ -52,7 +53,29 @@ class App extends Component {
     });
   };
 
- componentDidMount(){
+  fitIntoMarkers(venues){
+     let markers = []
+     var marker
+
+     venues.forEach(venue => {
+       let position = {
+         lat: venue.location.lat,
+         lng: venue.location.lng
+       };
+
+       marker = {
+         address: venue.location.address,
+         position,
+         name: venue.name,
+         id: venue.id,
+         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+       }
+        markers.push(marker)
+      })
+     return markers
+  }
+
+  componentDidMount(){
    //get all the venues int the FS API and set the markers
    getFSVenues(this.state.center)
      .then(venues => {
@@ -60,53 +83,30 @@ class App extends Component {
        this.setState({ markers: markers })
        this.setState({activeMarkers: markers})
      }).catch(err => {
-       console.log(err);
+       console.log('There has been a problem with your fetch operation: ' + err);
      });
+ }
+
+ componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
+   if (isScriptLoaded && !this.props.isScriptLoaded){
+      if (isScriptLoadSucceed) {
+        this.setState({ mapLoad: true })
+      }else{
+        console.log("Não foi possível carregar o maps!");
+      }
+   }
 
  }
 
- fitIntoMarkers(venues){
-   let markers = []
-   var marker
-
-   venues.forEach(venue => {
-     let position = {
-       lat: venue.location.lat,
-       lng: venue.location.lng
-     };
-
-     marker = {
-       //photo: '',
-       //rate: ,
-       //tel: '',
-       address: venue.location.address,
-       position,
-       name: venue.name,
-       id: venue.id,
-       icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-     }
-
-    /* doesnt work well
-    getVenueInfo(venue.id)
-        .then(info => {
-          //rate = info.rating ? info.rating :  ''
-          //photo = info.bestPhoto? `${info.bestPhoto.prefix}width100${info.bestPhoto.suffix}` : ''
-          //tel = info.contact.formattedPhone ? info.contact.formattedPhone : ''
-        });*/
-
-      markers.push(marker)
-    })
-   return markers
- }
 
   render() {
 
     return (
       <div className="container">
+        {this.state.mapLoad ? (
         <div className="map">
-          {this.props.google ? (
             <Map
-              google={this.props.google}
+              google={window.google}
               zoom={14}
               initialCenter={this.state.center}
             >
@@ -136,10 +136,10 @@ class App extends Component {
                   </a>
                 </div>
               </InfoWindow>
-            </Map> ) : (<p>  Something went wrong, please check your conection </p>)
-          }
-        </div>
+            </Map>
 
+        </div> ) : (<p className="error-msg">  Something went wrong, please check your conection </p>)
+          }
         <ResponsiveMenu
           menuOpenButton={<span id="menu-open"></span>}
           menuCloseButton={<span id="menu-close"></span>}
@@ -147,7 +147,6 @@ class App extends Component {
           largeMenuClassName="side-bar"
           smallMenuClassName=""
           menu={
-
             <div className="side-bar">
               <h1> Vancouver Downtown </h1>
               <h2> find a good place to eat </h2>
@@ -157,12 +156,10 @@ class App extends Component {
                 tabIndex="0"
                 role="search"
               />
-
               <List markers={this.state.activeMarkers}
                 onClick={(marker) => {
                   this.onMarkerClick(marker) }}
               />
-
             </div>
           }
         />
@@ -171,6 +168,6 @@ class App extends Component {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: GOOGLE_MAP_KEY
-})(App);
+export default scriptLoader([
+  `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_KEY}`
+])(App);

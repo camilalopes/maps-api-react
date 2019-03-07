@@ -15,9 +15,13 @@ export const getFSVenues = (mapCenter) => {
       if (!data.ok) {
         throw data;
       } else return data.json();
+    }).catch(err => {
+      console.log('There has been a problem with your fetch operation: ' + err);
     })
     .then(data => {
       return (data.response.venues);
+    }).catch(err => {
+      console.log('There has been a problem with your fetch operation: ' + err);
     })
   );
 };
@@ -32,9 +36,13 @@ export const getVenueInfo = (venueId) => {
       if(!data.ok){
         throw data;
       } else return data.json();
+    }).catch(err => {
+      console.log('There has been a problem with your fetch operation: ' + err);
     })
     .then(data =>{
       return (data.response.venue);
+    }).catch(err => {
+      console.log('There has been a problem with your fetch operation: ' + err);
     })
   );
 }
